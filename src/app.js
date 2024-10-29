@@ -7,6 +7,7 @@ import { PrismaClient } from "@prisma/client";
 import http from "http";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
+import expressLayouts from "express-ejs-layouts";
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -30,6 +31,14 @@ app.use(
     }),
   }),
 );
+
+/**
+----------------------- SET UP THE VIEW ENGINE------------------------
+*/
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(expressLayouts);
+app.set("layout", "layout");
 
 /**
 ----------------------- USE MIDDLEWARE FUNCTIONS ------------------------
