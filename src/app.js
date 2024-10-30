@@ -8,6 +8,7 @@ import http from "http";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import expressLayouts from "express-ejs-layouts";
+import { indexRouter } from "./routes/indexRouter.mjs";
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -49,10 +50,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
-  next();
-  res.send("hello");
-});
+app.use("/", indexRouter);
 
 /**
  * Create HTTP server.

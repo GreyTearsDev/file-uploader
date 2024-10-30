@@ -6,7 +6,8 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/home", (req, res, next) => {
-  res.render("home");
+  res.render("home", { title: "Horder Heaven" });
+  next();
 });
 
-module.exports = router;
+export const indexRouter = router;
