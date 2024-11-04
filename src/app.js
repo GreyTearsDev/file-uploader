@@ -4,6 +4,7 @@ import express from "express";
 import expressSession from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { PrismaClient } from "@prisma/client";
+import LocalStrategy from "passport-local";
 import http from "http";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
@@ -12,6 +13,7 @@ import { indexRouter } from "./routes/indexRouter.mjs";
 import { db } from "./db/db.mjs";
 import bcryptjs from "bcryptjs";
 const app = express();
+import passport from "passport";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
