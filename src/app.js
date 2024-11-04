@@ -9,6 +9,8 @@ import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import expressLayouts from "express-ejs-layouts";
 import { indexRouter } from "./routes/indexRouter.mjs";
+import { db } from "./db/db.mjs";
+import bcryptjs from "bcryptjs";
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -47,9 +49,48 @@ app.set("layout", "layout");
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../public")));
-
+app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await db.user.getByUsername(username);
+
+      if (!user) return done(null, false, { message: "Incorrect username" });
+
+      const match = await bcryptjs.compare(password, user.password);
+
+      if (!match) return done(null, false, { message: "Incorrect password" });
+
+      return done(null, user);
+    } catch (e) {
+      return done(e);
+    }
+  }),
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await db.user.getByID(id);
+    done(null, user);
+  } catch (e) {
+    done(err);
+  }
+});
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
+/**
+ *Routes
+ */
 app.use("/", indexRouter);
 
 /**
