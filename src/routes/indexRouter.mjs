@@ -1,11 +1,13 @@
 import express from "express";
 const router = express.Router();
-import { home } from "../controllers/indexController.mjs";
 
 router.get("/", (req, res, next) => {
   res.redirect("/home");
 });
 
-router.get("/home", home.get);
+router.get("/home", (req, res, next) => {
+  res.render("home", { title: "Horder Heaven" });
+  next();
+});
 
 export const indexRouter = router;
