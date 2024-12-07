@@ -1,12 +1,12 @@
 <div>
-  <h1>Horder Heaven</h1>
-  <form>
-    <input type="file" id="file-uploader" hidden />
-    <% if (userIsLoggedIn) { %>
-    <label for="file-uploader">Choose a file</label>
-    <% const btnInfo = { text: "Submit", color: "sky", type: "submit" }%> <%-
-    include("partials/form_button", { btnInfo })%> <% } else { %>
+  <% if (user) { %>
+    <form>
+      <input type="file" id="file-uploader" hidden />
+      <label for="file-uploader">Choose a file</label>
+      <% const btnInfo = { text: "Submit", color: "sky", type: "submit" }%> 
+      <%- include("partials/form_button", { btnInfo })%> 
+    </form>
+  <% } else { %>
     <h1><a href="/user/log-in">Log in</a> and start hording today</h1>
-    <% } %>
-  </form>
+ <% } %> 
 </div>

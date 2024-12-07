@@ -1,16 +1,10 @@
 <% if (!labelInfo) { %>
-  <% throw new Error("Must provide 'labelInfo' object") %>
+<% throw new Error("Must provide 'labelInfo' object") %>
 <% } %>
 
-<label 
+<label
   for="<%= labelInfo.for %>"
-  class="
-    block 
-    text-sm 
-    font-medium 
-    text-gray-700 
-    mt-4  
-  "
+  class="block text-sm font-medium text-gray-700 mt-4"
 >
   <%= labelInfo.text %>
 </label>

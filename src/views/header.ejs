@@ -1,0 +1,8 @@
+<h1>Horder Heaven</h1>
+<% if (!currentUser) { %>
+  <% const btnInfo = { text: "Log in", color: "sky", type: "submit" }%> 
+  <a href="/user/log-in"><%- include("partials/form_button", { btnInfo })%></a> 
+<% } else { %>
+  <% const btnInfo = { text: "Log out", color: "sky", type: "submit" }%> 
+  <a href="/user/log-out"><%- include("partials/form_button", { btnInfo })%></a> 
+<% } %>

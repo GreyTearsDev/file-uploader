@@ -5,11 +5,13 @@ import expressSession from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { PrismaClient } from "@prisma/client";
 import LocalStrategy from "passport-local";
+import { CustomErrors } from "./util/customErrorHandler.mjs";
 import http from "http";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import expressLayouts from "express-ejs-layouts";
 import { indexRouter } from "./routes/indexRouter.mjs";
+import { userRouter } from "./routes/userRouter.mjs";
 import { db } from "./db/db.mjs";
 import bcryptjs from "bcryptjs";
 const app = express();
@@ -94,6 +96,20 @@ app.use((req, res, next) => {
  *Routes
  */
 app.use("/", indexRouter);
+app.use("/user", userRouter);
+
+app.use((req, res, next) => {
+  return next(CustomErrors.pageNotFound());
+});
+
+// error handler
+app.use(function (err, req, res, next) {
+  return res.render("error", {
+    code: err.status,
+    title: err.title,
+    message: err.message,
+  });
+});
 
 /**
  * Create HTTP server.

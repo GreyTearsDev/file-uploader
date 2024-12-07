@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import bcryptjs from "bcryptjs";
 const prisma = new PrismaClient();
 
-const create = async (username, password) => {
+const create = async ({ username, password }) => {
   try {
     const hashedPassword = await bcryptjs.hash(password, 10);
     const user = await prisma.user.create({
@@ -32,12 +32,10 @@ const getByUsername = async (username) => {
   }
 };
 
-export const db = () => {
-  const user = {
+export const db = {
+  user: {
     create,
     getByID,
     getByUsername,
-  };
-
-  return { user };
+  },
 };
